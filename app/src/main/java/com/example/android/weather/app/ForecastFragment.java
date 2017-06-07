@@ -121,7 +121,14 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
         // The SimpleCursorAdapter will take data from the database through the
         // Loader and use it to populate the ListView it's attached to.
         // TO DO 1
-        mForecastAdapter = null;
+        mForecastAdapter = new SimpleCursorAdapter(
+                getActivity(),
+                R.layout.list_item_forecast,
+                null,
+                columns,
+                viewIDs,
+                0
+                );
 
         // END TO DO 1
         mForecastAdapter.setViewBinder(new SimpleCursorAdapter.ViewBinder() {

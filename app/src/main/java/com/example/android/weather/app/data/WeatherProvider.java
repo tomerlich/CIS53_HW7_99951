@@ -162,7 +162,15 @@ public class WeatherProvider extends ContentProvider {
             // "location/*"
             case LOCATION_ID: {
                 // TO DO
-
+                retCursor = mOpenHelper.getReadableDatabase().query(
+                        WeatherContract.LocationEntry.TABLE_NAME,
+                        projection,
+                        selection,
+                        null,
+                        null,
+                        null,
+                        sortOrder
+                );
                 // END TO DO
                 break;
             }
