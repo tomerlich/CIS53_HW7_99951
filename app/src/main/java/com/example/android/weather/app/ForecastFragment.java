@@ -142,26 +142,18 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
                     case COL_WEATHER_MIN_TEMP: {
                         // we have to do some formatting and possibly a conversion
                         // TO DO 2
-                        double high, low;
-                        high = cursor.getDouble(
-                                cursor.getColumnIndex(WeatherEntry.COLUMN_MAX_TEMP));
-                        low = cursor.getDouble(
-                                cursor.getColumnIndex(WeatherEntry.COLUMN_MIN_TEMP));
-                        String highStr = Utility.formatTemperature(high, isMetric);
-                        String lowStr = Utility.formatTemperature(low, isMetric);
-                        TextView mLowText = (TextView) view;
-                        mLowText.setText(lowStr);
-                        TextView mHighText = (TextView) view;
-                        mHighText.setText(highStr);
+                        double temp = cursor.getDouble(columnIndex);
+                        String tempStr = Utility.formatTemperature(temp, isMetric);
+                        TextView tempView = (TextView) view;
+                        tempView.setText(tempStr);
                         // END TO DO 2
                         return true;
                     }
                     case COL_WEATHER_DATE: {
                         // TO DO 3
-                        String dateStr = Utility.formatDate(cursor.getString(
-                                        cursor.getColumnIndex(WeatherEntry.COLUMN_DATETEXT)));
-                        TextView mDateText = (TextView) view;
-                        mDateText.setText(dateStr);
+                        String dateStr = Utility.formatDate(cursor.getString(columnIndex));
+                        TextView dateView = (TextView) view;
+                        dateView.setText(dateStr);
                         // END TO DO 3
                         return true;
                     }
@@ -226,20 +218,19 @@ public class ForecastFragment extends Fragment implements LoaderCallbacks<Cursor
         mLocation = Utility.getPreferredLocation(getActivity());
 
         // TO DO 4
-        Uri weatherForLocationUri = Uri.parse(mLocation);
+        Uri weatherForLocationUri = WeatherEntry.buildWeatherLocationWithStartDate(
+                mLocation, startDate);
 
         // Now create and return a CursorLoader that will take care of
         // creating a Cursor for the data being displayed.
-        CursorLoader loader = new CursorLoader(
+        return new CursorLoader(
                 getActivity(),
                 weatherForLocationUri,
+                FORECAST_COLUMNS,
                 null,
-                startDate,
                 null,
                 sortOrder
         );
-
-        return loader;
         // END TO DO 4
     }
 
